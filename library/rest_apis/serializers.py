@@ -8,6 +8,15 @@ class BookSerializer(serializers.ModelSerializer):
     class Meta:
         model = Book
         fields = "__all__"
+    
+    def to_representation(self, instance):
+        representation = super().to_representation(instance)
+        # Retrieve the authors associated with the book
+        authors = Author.objects.filter(bookauthormapper__book=instance)
+        # Serialize the authors
+        author_serializer = AuthorSerializer(authors, many=True)
+        representation['authors'] = author_serializer.data
+        return representation
 
 
 class AuthorSerializer(serializers.ModelSerializer):
