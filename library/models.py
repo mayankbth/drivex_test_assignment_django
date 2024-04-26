@@ -2,7 +2,7 @@ from django.db import models
 
 
 class Book(models.Model):
-    title = models.CharField(max_length=200, unique=True)
+    title = models.CharField(max_length=1000, unique=True)
     copyright = models.BooleanField(null=True, blank=True)
     quantity = models.IntegerField(default=0)
     rent_fee = models.IntegerField(default=50)
