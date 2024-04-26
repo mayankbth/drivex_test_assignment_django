@@ -2,7 +2,7 @@ from library.rest_apis.serializers import (
     BookSerializer, AuthorSerializer, BookAuthorMapperSerializer
 )
 
-from library.models import Book
+from library.models import Book, BookAuthorMapper
 
 
 def redundent_data_remover(data_list):
@@ -100,14 +100,25 @@ def data_extractor_guten_dex(data_list, quantity=None):
                 _book = book(title=data["title"], copyright=data["copyright"], quantity=quantity)
             else:
                 _book = book(title=data["title"], copyright=data["copyright"])
+            
+            # Populating the book data into DB
             book_serializer = BookSerializer(data=_book)
             if book_serializer.is_valid():
-                book_serializer.save()
+                book_instance = book_serializer.save()
             else:
                 pass
-            author_serializer = AuthorSerializer(data=data["authors"], many=True)
-            if author_serializer.is_valid():
-                author_serializer.save()
-            else:
-                pass
+            
+            # Populating the author data into DB
+            # author_serializer = AuthorSerializer(data=data["authors"], many=True)
+            for author in data["authors"]:
+                author_serializer = AuthorSerializer(data=author)
+                if author_serializer.is_valid():
+                    author_instance = author_serializer.save()
+                else:
+                    pass
+            
+                # to check if BookAuthorMapper instance already exist
+                if not BookAuthorMapper.objects.filter(book=book_instance, author=author_instance).exists():
+                    book_author_mapper = BookAuthorMapper.objects.create(book=book_instance, author=author_instance)
+                
     return None

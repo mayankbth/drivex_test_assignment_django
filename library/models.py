@@ -23,6 +23,3 @@ class Author(models.Model):
 class BookAuthorMapper(models.Model):
     book = models.ForeignKey(Book, on_delete=models.CASCADE)
     author = models.ForeignKey(Author, on_delete=models.CASCADE)
-    
-    def __str__(self):
-        return self.book + "|" + self.author
