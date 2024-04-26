@@ -3,10 +3,11 @@ from library.rest_apis.serializers import (
 )
 
 
-def book(title=None, copyright=None):
+def book(title=None, copyright=None, quantity=None):
     _book = {
         "title": title,
-        "copyright": copyright
+        "copyright": copyright,
+        "quantity": quantity
     }
     return _book
 
@@ -20,9 +21,12 @@ def author(name=None, birth_year=None, death_year=None):
     return _author
 
 
-def data_extractor_guten_dex(data_list):
-    for data in data_list:        
-        _book = book(title=data["title"], copyright=data["copyright"])
+def data_extractor_guten_dex(data_list, quantity=None):
+    for data in data_list:
+        if quantity:
+            _book = book(title=data["title"], copyright=data["copyright"], quantity=quantity)
+        else:
+            _book = book(title=data["title"], copyright=data["copyright"])
         book_serializer = BookSerializer(data=_book)
         if book_serializer.is_valid():
             book_serializer.save()
