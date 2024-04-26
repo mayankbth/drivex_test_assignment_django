@@ -4,8 +4,8 @@ from django.db import models
 class Book(models.Model):
     title = models.CharField(max_length=200, unique=True)
     copyright = models.BooleanField(null=True, blank=True)
-    quantity = models.IntegerField(null=True, blank=True)
-    rent_fee = models.IntegerField(null=True, blank=True)
+    quantity = models.IntegerField(default=0)
+    rent_fee = models.IntegerField(default=50)
     
     def __str__(self):
         return self.title
