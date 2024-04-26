@@ -40,6 +40,9 @@ INSTALLED_APPS = [
     
     # External libraries
     'rest_framework',
+    
+    # Custom app
+    'library.apps.LibraryConfig',
 ]
 
 MIDDLEWARE = [
