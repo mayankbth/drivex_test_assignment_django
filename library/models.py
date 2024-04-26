@@ -1,7 +1,7 @@
 from django.db import models
 
 
-class Books(models.Model):
+class Book(models.Model):
     title = models.CharField(max_length=200, unique=True)
     copyright = models.BooleanField(null=True, blank=True)
     quantity = models.IntegerField(null=True, blank=True)
@@ -11,7 +11,7 @@ class Books(models.Model):
         return self.title
     
     
-class Authors(models.Model):
+class Author(models.Model):
     name = models.CharField(max_length=200, unique=True)
     birth_year = models.IntegerField(null=True, blank=True)
     death_year = models.IntegerField(null=True, blank=True)
@@ -20,9 +20,9 @@ class Authors(models.Model):
         return self.name
 
 
-class BooksAuthorsMappers(models.Model):
-    books = models.ForeignKey(Books, on_delete=models.CASCADE)
-    authors = models.ForeignKey(Authors, on_delete=models.CASCADE)
+class BookAuthorMapper(models.Model):
+    book = models.ForeignKey(Book, on_delete=models.CASCADE)
+    author = models.ForeignKey(Author, on_delete=models.CASCADE)
     
     def __str__(self):
-        return self.books + "|" + self.authors
+        return self.book + "|" + self.author
