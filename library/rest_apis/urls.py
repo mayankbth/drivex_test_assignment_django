@@ -1,6 +1,6 @@
 from django.urls import path
 from .views import (
-    GetBooks, BookList, BookDetail, MemberList
+    GetBooks, BookList, BookDetail, MemberList, MemberDetail
 )
 
 urlpatterns = [
@@ -11,4 +11,5 @@ urlpatterns = [
     path('book_detail/<int:id>/', BookDetail.as_view(), name='book_detail'),
     
     path('member_list/', MemberList.as_view(), name='member_list'),
+    path('member_detail/<int:id>/', MemberDetail.as_view(), name='member_detail'),
 ]
