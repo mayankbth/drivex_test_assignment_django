@@ -35,3 +35,13 @@ class MemberSerializer(serializers.ModelSerializer):
     class Meta:
         model = Member
         fields = "__all__"
+        
+    # Custom field level validation
+    def validate_member_code(self, value):
+        if value is not None:
+            if (len(value) != 5):
+                raise serializers.ValidationError("Library Code must be 5 characters.")
+            if not (value[0] == "L" and value[1] == "M"):
+                raise serializers.ValidationError("First character should be 'L' and second should be 'M'.")
+            if not (value[2:].isnumeric()):
+                raise serializers.ValidationError("Third, fourth and fifth characters must be numbers.")
