@@ -138,3 +138,89 @@ class BookList(APIView):
             data= serializer.data
         )
         return Response(context, status=status.HTTP_200_OK)
+    
+    
+class BookDetail(APIView):
+    """
+    A view to retrieve, update, or partially update details of a specific book.
+
+    GET:
+    Retrieve details of a book with the specified ID.
+
+    PATCH:
+    Update or partially update details of a book with the specified ID.
+    If 'quantity' is provided in the request data, it adds the new quantity to the existing quantity.
+    If the resulting quantity is negative, returns a Bad Request response.
+
+    Args:
+        request: The HTTP request object.
+        id: The ID of the book to retrieve or update.
+
+    Returns:
+        Response: A response containing information about the success or failure of the operation,
+        along with the data of the book if successful.
+    """
+    
+    def get(self, request, id):
+        
+        try:
+            book = Book.objects.get(id=id)
+        except:
+            context = context_data_generator(
+                info= "Fail",
+                status_code= status.HTTP_404_NOT_FOUND,
+            )
+            return Response(context, status.HTTP_404_NOT_FOUND)
+        
+        serializer = BookSerializer(book)
+        
+        context = context_data_generator(
+            info= "Success",
+            status_code= status.HTTP_200_OK,
+            data= serializer.data
+        )
+        
+        return Response(context, status=status.HTTP_200_OK)
+        
+        
+    def patch(self, request, id):
+        
+        try:
+            book = Book.objects.get(id=id)
+        except:
+            context = context_data_generator(
+                info= "Fail",
+                status_code= status.HTTP_404_NOT_FOUND,
+            )
+            return Response(context, status.HTTP_404_NOT_FOUND)
+        
+        try:
+            # if 'quantity' is present in validated_data, add the new quantity to the existing quantity
+            request.data["quantity"] = book.quantity + request.data["quantity"]
+            if request.data["quantity"] < 0:
+                context = context_data_generator(
+                    info="Fail",
+                    status_code=status.HTTP_400_BAD_REQUEST,
+                    error_message="Book quantity can not be negative."
+                )
+                return Response(context, status.HTTP_400_BAD_REQUEST)
+        except:
+            pass
+        
+        serializer = BookSerializer(book, data=request.data, partial=True)
+        
+        if serializer.is_valid():
+            serializer.save()
+            context = context_data_generator(
+                info="Success",
+                status_code=status.HTTP_200_OK,
+                data=serializer.data
+            )
+            return Response(context, status=status.HTTP_200_OK)
+        else:
+            context = context_data_generator(
+                info="Fail",
+                status_code=status.HTTP_400_BAD_REQUEST,
+                error_message=serializer.errors
+            )
+            return Response(context, status=status.HTTP_400_BAD_REQUEST)
