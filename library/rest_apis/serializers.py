@@ -59,3 +59,11 @@ class BookMemberMapperSerilizer(serializers.ModelSerializer):
     class Meta:
         model = BookMemberMapper
         fields= "__all__"
+        
+    def to_representation(self, instance):
+        representation = super().to_representation(instance)
+        
+        representation["book_title"] = str(instance.book)
+        representation["member_code"] = str(instance.member)
+        
+        return representation
