@@ -9,7 +9,7 @@ from .helper_functions.context_generator import context_data_generator
 
 from .serializers import *
 
-from library.models import Book, Member
+from library.models import Book, Member, BookMemberMapper
 
 
 class GetBooks(APIView):
@@ -368,3 +368,52 @@ class MemberDetail(APIView):
             status_code=status.HTTP_204_NO_CONTENT
         )
         return Response(context, status=status.HTTP_204_NO_CONTENT)
+    
+    
+class BookMemberMapperList(APIView):
+    """
+    A view to retrieve a list of all book-member mappings or add a new mapping.
+
+    GET:
+    Retrieve a list of all book-member mappings.
+
+    POST:
+    Add a new book-member mapping to the system.
+
+    Args:
+        request: The HTTP request object.
+
+    Returns:
+        Response: A response containing information about the success or failure of the operation,
+        along with the data of all book-member mappings if retrieving or the data of the added mapping if creating.
+    """
+    def get(self, request):
+        
+        mapper_object = BookMemberMapper.objects.all()
+        serializer = BookMemberMapperSerilizer(mapper_object, many=True)
+        context = context_data_generator(
+            info="Success",
+            status_code=status.HTTP_200_OK,
+            data=serializer.data
+        )
+        return Response(context, status=status.HTTP_200_OK)
+    
+    
+    def post(self, request):
+        
+        serializer = BookMemberMapperSerilizer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            context = context_data_generator(
+                info="Success",
+                status_code=status.HTTP_201_CREATED,
+                data=serializer.data
+            )
+            return Response(context, status=status.HTTP_201_CREATED)
+        else:
+            context = context_data_generator(
+                info="Fail",
+                status_code=status.HTTP_400_BAD_REQUEST,
+                error_message=serializer.errors
+            )
+            return Response(context, status=status.HTTP_400_BAD_REQUEST)
