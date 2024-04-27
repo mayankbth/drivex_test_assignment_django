@@ -16,6 +16,13 @@ class BookSerializer(serializers.ModelSerializer):
         # Serialize the authors
         author_serializer = AuthorSerializer(authors, many=True)
         representation['authors'] = author_serializer.data
+        
+        # Issued book
+        issued = len(BookMemberMapper.objects.filter(book=instance.id, book_status="issued"))
+        representation['issued'] = issued
+        
+        # Instock book
+        representation['in_stock'] = instance.quantity - issued
         return representation
 
 

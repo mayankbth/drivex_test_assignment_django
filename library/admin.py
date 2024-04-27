@@ -19,7 +19,7 @@ class MemberAdmin(admin.ModelAdmin):
     
     
 class BookMemberMapperAdmin(admin.ModelAdmin):
-    list_display = ('book', 'member')
+    list_display = ('book', 'member', 'book_status', 'fee_status')
 
 
 admin.site.register(Book, BookAdmin)
