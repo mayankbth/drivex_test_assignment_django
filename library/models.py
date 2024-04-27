@@ -34,5 +34,18 @@ class Member(models.Model):
     
     
 class BookMemberMapper(models.Model):
+    # Choices for book status
+    BOOK_STATUS_CHOICES = [
+        ('issued', 'Issued'),
+        ('returned', 'Returned'),
+    ]
+    # Choices for fee status
+    FEE_STATUS_CHOICES = [
+        ('paid', 'Paid'),
+        ('pending', 'Pending'),
+    ]
+    
     book = models.ForeignKey(Book, on_delete=models.CASCADE)
     member = models.ForeignKey(Member, on_delete=models.CASCADE)
+    book_status = models.CharField(max_length=20, choices=BOOK_STATUS_CHOICES, default='issued')
+    fee_status = models.CharField(max_length=20, choices=FEE_STATUS_CHOICES, default='pending')
