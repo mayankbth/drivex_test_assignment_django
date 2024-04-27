@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from library.models import (
-    Book, Author, BookAuthorMapper
+    Book, Author, BookAuthorMapper, Member
 )
 
 
@@ -28,4 +28,10 @@ class AuthorSerializer(serializers.ModelSerializer):
 class BookAuthorMapperSerializer(serializers.ModelSerializer):
     class Meta:
         model = BookAuthorMapper
+        fields = "__all__"
+        
+        
+class MemberSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Member
         fields = "__all__"
