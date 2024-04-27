@@ -23,3 +23,16 @@ class Author(models.Model):
 class BookAuthorMapper(models.Model):
     book = models.ForeignKey(Book, on_delete=models.CASCADE)
     author = models.ForeignKey(Author, on_delete=models.CASCADE)
+    
+    
+class Member(models.Model):
+    name = models.CharField(max_length=200)
+    member_code = models.CharField(max_length=200, unique=True)
+    
+    def __str__(self):
+        return self.member_code
+    
+    
+class BookMemberMapper(models.Model):
+    book = models.ForeignKey(Book, on_delete=models.CASCADE)
+    member = models.ForeignKey(Member, on_delete=models.CASCADE)

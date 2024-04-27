@@ -12,8 +12,18 @@ class AuthorAdmin(admin.ModelAdmin):
 
 class BookAuthorMapperAdmin(admin.ModelAdmin):
     list_display = ('book', 'author')
+    
+    
+class MemberAdmin(admin.ModelAdmin):
+    list_display = ('member_code', 'name')
+    
+    
+class BookMemberMapperAdmin(admin.ModelAdmin):
+    list_display = ('book', 'member')
 
 
 admin.site.register(Book, BookAdmin)
 admin.site.register(Author, AuthorAdmin)
 admin.site.register(BookAuthorMapper, BookAuthorMapperAdmin)
+admin.site.register(Member, MemberAdmin)
+admin.site.register(BookMemberMapper, BookMemberMapperAdmin)
