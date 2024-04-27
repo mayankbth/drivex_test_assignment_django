@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from library.models import (
-    Book, Author, BookAuthorMapper, Member
+    Book, Author, BookAuthorMapper, Member, BookMemberMapper
 )
 
 
@@ -46,3 +46,9 @@ class MemberSerializer(serializers.ModelSerializer):
             if not (value[2:].isnumeric()):
                 raise serializers.ValidationError("Third, fourth and fifth characters must be numbers.")
         return value
+    
+    
+class BookMemberMapperSerilizer(serializers.ModelSerializer):
+    class Meta:
+        model = BookMemberMapper
+        fields= "__all__"
