@@ -417,3 +417,97 @@ class BookMemberMapperList(APIView):
                 error_message=serializer.errors
             )
             return Response(context, status=status.HTTP_400_BAD_REQUEST)
+        
+        
+class BookMemberMapperDetail(APIView):
+    """
+    A view to retrieve, update, or delete a specific book-member mapping.
+
+    GET:
+    Retrieve details of a book-member mapping with the specified ID.
+
+    PATCH:
+    Update details of a book-member mapping with the specified ID.
+
+    DELETE:
+    Delete a book-member mapping with the specified ID.
+
+    Args:
+        request: The HTTP request object.
+        id: The ID of the book-member mapping to retrieve, update, or delete.
+
+    Returns:
+        Response: A response containing information about the success or failure of the operation,
+        along with the data of the book-member mapping if retrieving or updating.
+    """
+    
+    def get(self, request, id):
+        
+        try:
+            book_member = BookMemberMapper.objects.get(id=id)
+        except BookMemberMapper.DoesNotExist:
+            context = context_data_generator(
+                info="Fail",
+                status_code=status.HTTP_404_NOT_FOUND,
+                error_message=f"BookMemberMapper with ID {id} does not exist."
+            )
+            return Response(context, status=status.HTTP_404_NOT_FOUND)
+        
+        serializer = BookMemberMapperSerilizer(book_member)
+        context = context_data_generator(
+            info=f"Success",
+            status_code=status.HTTP_200_OK,
+            data=serializer.data
+        )
+        return Response(context, status=status.HTTP_200_OK)
+
+
+    def patch(self, request, id):
+        
+        try:
+            book_member = BookMemberMapper.objects.get(id=id)
+        except BookMemberMapper.DoesNotExist:
+            context = context_data_generator(
+                info="Fail",
+                status_code=status.HTTP_404_NOT_FOUND,
+                error_message=f"BookMemberMapper with ID {id} does not exist."
+            )
+            return Response(context, status=status.HTTP_404_NOT_FOUND)
+        
+        serializer = BookMemberMapperSerilizer(book_member, data=request.data, partial=True)
+        
+        if serializer.is_valid():
+            serializer.save()
+            context = context_data_generator(
+                info="Success",
+                status_code=status.HTTP_200_OK,
+                data=serializer.data
+            )
+            return Response(context, status=status.HTTP_200_OK)
+        else:
+            context = context_data_generator(
+                info="Fail",
+                status_code=status.HTTP_400_BAD_REQUEST,
+                error_message=serializer.errors
+            )
+            return Response(context, status=status.HTTP_400_BAD_REQUEST)
+        
+
+    def delete(self, request, id):
+
+        try:
+            book_member = BookMemberMapper.objects.get(id=id)
+        except BookMemberMapper.DoesNotExist:
+            context = context_data_generator(
+                info="Fail",
+                status_code=status.HTTP_404_NOT_FOUND,
+                error_message=f"BookMemberMapper with ID {id} does not exist."
+            )
+            return Response(context, status=status.HTTP_404_NOT_FOUND)
+        
+        book_member.delete()
+        context = context_data_generator(
+            info="Success",
+            status_code=status.HTTP_204_NO_CONTENT
+        )
+        return Response(context, status=status.HTTP_204_NO_CONTENT)
