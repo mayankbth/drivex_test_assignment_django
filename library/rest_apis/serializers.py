@@ -45,3 +45,4 @@ class MemberSerializer(serializers.ModelSerializer):
                 raise serializers.ValidationError("First character should be 'L' and second should be 'M'.")
             if not (value[2:].isnumeric()):
                 raise serializers.ValidationError("Third, fourth and fifth characters must be numbers.")
+        return value

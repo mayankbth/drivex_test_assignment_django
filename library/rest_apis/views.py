@@ -9,7 +9,7 @@ from .helper_functions.context_generator import context_data_generator
 
 from .serializers import *
 
-from library.models import Book
+from library.models import Book, Member
 
 
 class GetBooks(APIView):
@@ -217,6 +217,56 @@ class BookDetail(APIView):
                 data=serializer.data
             )
             return Response(context, status=status.HTTP_200_OK)
+        else:
+            context = context_data_generator(
+                info="Fail",
+                status_code=status.HTTP_400_BAD_REQUEST,
+                error_message=serializer.errors
+            )
+            return Response(context, status=status.HTTP_400_BAD_REQUEST)
+        
+        
+class MemberList(APIView):
+    """
+    A view to retrieve a list of all members or add a new member.
+
+    GET:
+    Retrieve a list of all members.
+
+    POST:
+    Add a new member to the system.
+
+    Args:
+        request: The HTTP request object.
+
+    Returns:
+        Response: A response containing information about the success or failure of the operation,
+        along with the data of all members if retrieving or the data of the added member if creating.
+    """
+    
+    def get(self, request):
+        
+        member = Member.objects.all()
+        serializer = MemberSerializer(member, many=True)
+        context = context_data_generator(
+            info="Success",
+            status_code=status.HTTP_200_OK,
+            data=serializer.data
+        )
+        return Response(context, status=status.HTTP_200_OK)
+    
+    
+    def post(self, request):
+        
+        serializer = MemberSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            context = context_data_generator(
+                info="Success",
+                status_code=status.HTTP_201_CREATED,
+                data=serializer.data
+            )
+            return Response(context, status=status.HTTP_201_CREATED)
         else:
             context = context_data_generator(
                 info="Fail",
