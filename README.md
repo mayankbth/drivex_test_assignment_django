@@ -115,3 +115,18 @@ Base Library System
     "member_code": "LM002"
   }
 - This payload will create a new member with "name: mayank2" and "member_code: LM002".
+
+## http://127.0.0.1:8000/library/member_detail/<int:id>/
+- **Methods:** GET, PATCH, DELETE
+- **API Endpoint:** `/member_detail/<int:id>/`, (Obtain the ID from the "http://127.0.0.1:8000/library/member_list/" endpoint using the GET method)
+    - **GET:** Retrieve member based on the provided ID.
+    - **PATCH:** To perform update operation on members based on provided ID and payload.
+    - **DELETE:** To delete a member based on the provided ID.
+- **Query Parameters:**: none
+- **Payload Example:**
+  ```json
+  {
+    "name": "mayank111",
+    "member_code": "LM111"
+  }
+- This payload will update the "name" and "member_code" of the member.
