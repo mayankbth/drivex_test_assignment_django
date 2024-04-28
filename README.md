@@ -62,3 +62,20 @@ Base Library System
 - http://127.0.0.1:8000/library/member_detail/<int:id>/
 - http://127.0.0.1:8000/library/book_member_mapper/
 - http://127.0.0.1:8000/library/book_member_mapper/<int:id>/
+
+## Explanation
+
+## http://127.0.0.1:8000/library/get_books/
+- **Methods:** GET, POST
+- **API Endpoint:** `/books/`
+  - **GET:** Retrieve book data based on provided query parameters.
+  - **POST:** Process and save book data obtained from an external API.
+- **Query Parameters:** 
+  - `page`: Pagination parameter to specify the page number.
+  - `search`: Search parameter to filter books based on specific criteria.
+- **Payload Example:**
+  ```json
+  {
+    "quantity": 10
+  }
+- If the payload is provided in the POST request, the specified quantity will be assigned to the book or books becoming available in the library.
