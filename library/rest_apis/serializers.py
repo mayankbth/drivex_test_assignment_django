@@ -45,6 +45,24 @@ class MemberSerializer(serializers.ModelSerializer):
         model = Member
         fields = "__all__"
         
+        
+    def to_representation(self, instance):
+        representation = super().to_representation(instance)
+        
+        # All issued book to member
+        issued_book_query_set = BookMemberMapper.objects.filter(member=instance.id, book_status="issued")
+        representation["issued_book"] = BookMemberMapperSerilizer(issued_book_query_set, many=True).data
+
+        # All books returned by member
+        returned_book_query_set = BookMemberMapper.objects.filter(member=instance.id, book_status="returned")
+        representation["returned_book"] = BookMemberMapperSerilizer(returned_book_query_set, many=True).data
+        
+        # Pending balanc, here 50 is default rent_fee
+        representation["pending_balance"] = len(issued_book_query_set) * 50
+        
+        return representation
+        
+        
     # Custom field level validation
     def validate_member_code(self, value):
         if value is not None:
