@@ -3,6 +3,8 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 
+from django.db.models import Q
+
 from .helper_functions.url_creators import url_creator
 from .helper_functions.data_extractor import data_extractor_guten_dex
 from .helper_functions.context_generator import context_data_generator
@@ -122,11 +124,21 @@ class BookList(APIView):
         author_name = request.GET.get('author_name')
         
         if (book_title and author_name):
-            query_set = Book.objects.filter(title=book_title, bookauthormapper__author__name=author_name)
+            
+            # Define the Q objects
+            q_title = Q(title__icontains=book_title)
+            q_author = Q(bookauthormapper__author__name__icontains=author_name)
+            
+            # Combine the Q objects using logical OR operator
+            q_combined = q_title & q_author
+            
+            # query_set = Book.objects.filter(title=book_title, bookauthormapper__author__name=author_name)
+            query_set = Book.objects.filter(q_combined)
+            
         elif author_name:
-            query_set = Book.objects.filter(bookauthormapper__author__name=author_name)
+            query_set = Book.objects.filter(bookauthormapper__author__name__icontains=author_name)
         elif book_title:
-            query_set = Book.objects.filter(title=book_title)
+            query_set = Book.objects.filter(title__icontains=book_title)
         else:
             query_set = Book.objects.all()
             
