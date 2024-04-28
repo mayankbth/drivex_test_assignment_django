@@ -130,3 +130,19 @@ Base Library System
     "member_code": "LM111"
   }
 - This payload will update the "name" and "member_code" of the member.
+
+## http://127.0.0.1:8000/library/book_member_mapper/
+- **Methods:** GET, POST
+- **API Endpoint:** `/book_member_mapper/`
+    - **GET:** Retrive all the transction data from "Book member mappers" (Transction data related to books and members)
+    - **POST:** TO create a new transaction.
+- **Query Parameters:**: none
+- **Payload Example:**
+  ```json
+  {
+    "book": 12,
+    "member": 2,
+    "book_status": "issued",
+    "fee_status": "pending"
+  }
+- This payload will create a new transction between "book_id: 12" and "member_id: 2".
