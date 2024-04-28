@@ -3,6 +3,8 @@ from library.models import (
     Book, Author, BookAuthorMapper, Member, BookMemberMapper
 )
 
+from .helper_functions.enums import max_pending_balance as mpb
+
 
 class BookSerializer(serializers.ModelSerializer):
     class Meta:
@@ -67,3 +69,28 @@ class BookMemberMapperSerilizer(serializers.ModelSerializer):
         representation["member_code"] = str(instance.member)
         
         return representation
+    
+    def validate_book_status(self, value):
+        
+        if value == "issued":
+            
+            # getting the number of books issued form BookMemberMapper
+            issued_book = len(BookMemberMapper.objects.filter(book=self.initial_data["book"], book_status=value))
+            # getting in stock books by substracting the issued_books form the total quantity
+            book_instance = Book.objects.get(id=self.initial_data["book"])
+            in_stock_book = book_instance.quantity - issued_book
+            
+            # if book is not in stock and being assign then raise error
+            if not in_stock_book:
+                raise serializers.ValidationError(f"{book_instance.title} is not in stock.")
+            
+            # if the book is already assigned to a perticular member then raise error
+            member_instance = Member.objects.get(id=self.initial_data["member"])
+            if BookMemberMapper.objects.filter(book=book_instance.id, member=member_instance.id, book_status="issued"):
+                raise serializers.ValidationError(f"{book_instance.title} book has been already issued to {member_instance.member_code}.")
+            
+            # TO denied the issue of book if balance ammount is more than 500 for a member.
+            if (len(BookMemberMapper.objects.filter(member=member_instance.id, fee_status="pending"))*(book_instance.rent_fee)==mpb):
+                raise serializers.ValidationError(f"{member_instance.member_code} has reached maximum allowed balance.")
+            
+        return value
