@@ -79,3 +79,12 @@ Base Library System
     "quantity": 10
   }
 - If the payload is provided in the POST request, the specified quantity will be assigned to the book or books becoming available in the library.
+
+## http://127.0.0.1:8000/library/book_list/
+- **Methods:** GET
+- **API Endpoint:** `/book_list/`
+    - **GET:** Retrieve available books in library, based on provided query parameters.
+- **Query Parameters:** 
+  - `book_title`: search based on book_title.
+  - `author_name`: search based on author_name.
+**Payload Example:** None
