@@ -31,3 +31,23 @@ Base Library System
 -	Search for a book by name and author
 -	Charge a rent fee on book returns
 -	Make sure a member’s outstanding debt is not more than Rs.500
+
+## Installation
+- Clone the repository to your local machine using Git:
+    git clone https://github.com/mayankbth/drivex_test_assignment_django.git
+
+- Navigate to the project directory and install the required dependencies using pip:
+    cd <project_directory>
+    pip install -r requirements.txt
+
+- Apply migrations to create database tables:
+    python manage.py migrate
+
+- Create a Superuser (Optional)
+    python manage.py createsuperuser
+
+- Run the Development Server
+    python manage.py runserver
+
+- Access the Application
+    http://127.0.0.1:8000/
