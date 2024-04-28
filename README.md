@@ -2,7 +2,7 @@
 
 ## Table of Contents
 
-- #introduction
-- #features
-- #installation
+- introduction
+- features
+- installation
 - usage
