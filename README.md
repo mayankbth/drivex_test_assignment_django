@@ -87,4 +87,18 @@ Base Library System
 - **Query Parameters:** 
   - `book_title`: search based on book_title.
   - `author_name`: search based on author_name.
-**Payload Example:** None
+- **Payload Example:** None
+
+## http://127.0.0.1:8000/library/book_detail/<int:id>/
+- **Methods:** GET, PATCH
+- **API Endpoint:** `/book_detail/<int:id>/`, (Obtain the ID from the "http://127.0.0.1:8000/library/book_list/" endpoint using the GET method)
+    - **GET:** Retrieve available book in the library based on the provided ID.
+    - **PATCH:** Update related data for an available book in the library based on the provided ID and payload.
+- **Query Parameters:**: none
+- **Payload Example:**
+  ```json
+  {
+    "quantity": 10
+  }
+- If the above payload is provided, it will increase the quantity of the book with the given ID by 10.
+
