@@ -102,3 +102,16 @@ Base Library System
   }
 - If the above payload is provided, it will increase the quantity of the book with the given ID by 10.
 
+## http://127.0.0.1:8000/library/member_list/
+- **Methods:** GET, POST
+- **API Endpoint:** `/member_list/`
+    - **GET:** Retrive all the members created in the system.
+    - **POST:** TO create new members.
+- **Query Parameters:**: none
+- **Payload Example:**
+  ```json
+  {
+    "name": "mayank2",
+    "member_code": "LM002"
+  }
+- This payload will create a new member with "name: mayank2" and "member_code: LM002".
