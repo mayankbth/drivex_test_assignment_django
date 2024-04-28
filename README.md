@@ -79,5 +79,3 @@ Base Library System
     "quantity": 10
   }
 - If the payload is provided in the POST request, the specified quantity will be assigned to the book or books becoming available in the library.
-
-![url: "http://127.0.0.1:8000/library/get_books/", method: "GET", explanation: This API using "https://gutendex.com/books/" endpoint internally to get revelant data](screenshot/1_GetBooks_GET_with_out_query_params.png)
