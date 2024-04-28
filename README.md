@@ -51,3 +51,14 @@ Base Library System
 
 - Access the Application
     http://127.0.0.1:8000/
+
+
+# Usage
+# APIs 
+- http://127.0.0.1:8000/library/get_books/
+- http://127.0.0.1:8000/library/book_list/
+- http://127.0.0.1:8000/library/book_detail/<int:id>/
+- http://127.0.0.1:8000/library/member_list/
+- http://127.0.0.1:8000/library/member_detail/<int:id>/
+- http://127.0.0.1:8000/library/book_member_mapper/
+- http://127.0.0.1:8000/library/book_member_mapper/<int:id>/
