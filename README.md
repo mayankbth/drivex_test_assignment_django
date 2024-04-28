@@ -146,3 +146,18 @@ Base Library System
     "fee_status": "pending"
   }
 - This payload will create a new transction between "book_id: 12" and "member_id: 2".
+
+## http://127.0.0.1:8000/library/book_member_mapper/<int:id>/
+- **Methods:** GET, PATCH, DELETE
+- **API Endpoint:** `/book_member_mapper/<int:id>/`, (Obtain the ID from the "http://127.0.0.1:8000/library/book_member_mapper/" endpoint using the GET method)
+    - **GET:** Retrieve transction data based on the provided ID.
+    - **PATCH:** To perform update operation on members based on provided ID and payload.
+    - **DELETE:** To delete a member based on the provided ID.
+- **Query Parameters:**: none
+- **Payload Example:**
+  ```json
+  {
+    "book_status": "returned",
+    "fee_status": "paid"
+  }
+- This payload will update the "book_status" and "fee_status" of the Transction from "issued - returned" and "pending - paid" and other way arround.
