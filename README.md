@@ -67,7 +67,7 @@ Base Library System
 
 ## http://127.0.0.1:8000/library/get_books/
 - **Methods:** GET, POST
-- **API Endpoint:** `/books/`
+- **API Endpoint:** `/get_books/`
   - **GET:** Retrieve book data based on provided query parameters.
   - **POST:** Process and save book data obtained from an external API.
 - **Query Parameters:** 
